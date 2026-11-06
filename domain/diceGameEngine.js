@@ -1,9 +1,29 @@
-import { heroes as heroesData } from '../data/heroes.js'
+import { createHeroesTable } from '../createHeroesTable.js';
+import { seedHeroesTable } from '../seedHeroesTable.js';
+import { getDBConnection } from '../db/db.js';
+const heroesData = await getHeroesData()
 
 /* @param {number} power attack or defense stat (roll range 1..power inclusive) */
 
 function rollPower(power) {
   return Math.floor(Math.random() * power) + 1;
+}
+
+async function getHeroesData() {
+  const db = await getDBConnection()
+
+  await createHeroesTable()
+  await seedHeroesTable()
+
+  try {
+    console.log('Heroes data has been retrieved')
+    return await db.all('SELECT * FROM heroes')
+  } catch (err) {
+    console.error('Failed to retrieve heroes data', err)
+  } finally {
+    await db.close()
+    console.log('Database connection closed')
+  }
 }
 
 export function createDiceGameEngine(heroes = heroesData) {

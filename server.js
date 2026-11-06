@@ -2,7 +2,7 @@ import express from 'express'
 import { diceGameRoutes } from './routes/diceGameRoutes.js'
 
 const app = express()
-const PORT = process.env.PORT || 8000
+const PORT = process.env.PORT || 9000
 
 app.use(express.json())
 
