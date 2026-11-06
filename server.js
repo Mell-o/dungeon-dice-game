@@ -1,10 +1,23 @@
 import express from 'express'
+import session from 'express-session'
 import { diceGameRoutes } from './routes/diceGameRoutes.js'
 
 const app = express()
 const PORT = process.env.PORT || 9000
+const secret = process.env.DICE_GAME_SECRET || 'O-)xiYQ*tWd|PDpB'
 
 app.use(express.json())
+
+app.use(session({
+    secret: secret,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        secure: false,
+        sameSite: 'lax'
+    }
+}))
 
 app.use(express.static('public'))
 
