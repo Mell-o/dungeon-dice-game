@@ -1,15 +1,18 @@
-import { createDiceGameEngine } from '../domain/diceGameEngine.js'
-import { createBattleController } from '../controllers/battleController.js';
 import express from 'express'
+import { createDiceGameEngine } from '../domain/diceGameEngine.js'
+import { createHeroesController } from '../controllers/heroesController.js';
+import { createBattleController } from '../controllers/battleController.js';
+import { getHeroes } from "../db/heroes.js";
 
-const engine = createDiceGameEngine();
+const heroes = await getHeroes()
+const engine = createDiceGameEngine(heroes);
+const heroesController = createHeroesController(engine)
 const battleController = createBattleController(engine)
+
 
 export const diceGameRoutes = express.Router()
 
-diceGameRoutes.get('/heroes', (req, res) => { 
-    res.status(200).json({heroes: engine.getHeroes()})
-})
+diceGameRoutes.get('/heroes', heroesController.getHeroes)
 
 diceGameRoutes.post('/battle/start', battleController.startBattle)
 

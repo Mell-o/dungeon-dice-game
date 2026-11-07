@@ -1,13 +1,10 @@
-import { getHeroesData } from "../db/heroes.js";
-const heroesData = await getHeroesData()
-
 /* @param {number} power attack or defense stat (roll range 1..power inclusive) */
 
 function rollPower(power) {
   return Math.floor(Math.random() * power) + 1;
 }
 
-export function createDiceGameEngine(heroes = heroesData) {
+export function createDiceGameEngine(heroes) {
   //engine state variables
   let playerHero = null;
   let computerHero = null;

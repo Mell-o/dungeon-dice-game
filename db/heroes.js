@@ -23,7 +23,7 @@ async function createHeroesTable() {
 
     } catch (err) {
 
-        console.error('Error creating heroes table', err)
+        console.error('Error creating heroes table:', err)
 
     } finally {
 
@@ -33,7 +33,7 @@ async function createHeroesTable() {
     }
 }
 
-export async function seedHeroesTable() {
+async function seedHeroesTable() {
     const db = await getDBConnection()
 
     try {
@@ -65,19 +65,19 @@ export async function seedHeroesTable() {
     }
 }
 
-export async function getHeroesData() {
+export async function getHeroes() {
     await createHeroesTable()
     await seedHeroesTable()
     const db = await getDBConnection()
 
     try {
 
-        console.log('Heroes data has been retrieved')
+        console.log('Heroes have been retrieved')
         return await db.all('SELECT * FROM heroes')
 
     } catch (err) {
 
-        console.error('Failed to retrieve heroes data', err)
+        console.error('Failed to retrieve heroes:', err)
 
     } finally {
 
