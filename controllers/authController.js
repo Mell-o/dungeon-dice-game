@@ -28,7 +28,7 @@ export async function registerUser(req, res) {
         res.status(200).json({message: 'Logged in'})
         
     } catch(err) {
-
+        console.error('Failed to register user:', err)
         return res.status(500).json({message: 'Registration failed. Please try again.', error: err})
 
     }
@@ -55,9 +55,24 @@ export async function loginUser(req, res) {
 
     } catch(err) {
 
+        console.error('Failed to login user:', err)
         return res.status(500).json({
             message: 'Login failed. Please try again.', error: err
         })
 
     }
+}
+
+export async function logoutUser(req, res) {
+    req.session.destroy((err) => {
+        
+        if (err) {
+            console.error('Session destruction error:', err)
+            return res.status(500).send('Could not log out.')
+        }
+
+        res.clearCookie('connect.sid')
+        res.status(200).json({message: 'Logged out'})
+
+    })
 }
