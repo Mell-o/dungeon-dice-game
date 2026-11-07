@@ -6,7 +6,12 @@ export async function getCurrentUser(req, res) {
         if (req.session.userId) {
 
             const username = await getUsername(req.session.userId)
-            res.status(200).json({isLoggedIn: true, name: username})
+
+            if (username) {
+                res.status(200).json({isLoggedIn: true, name: username})
+            } else {
+                res.status(200).json({isLoggedIn: false})
+            }
 
         } else {
             
