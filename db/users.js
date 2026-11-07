@@ -32,10 +32,12 @@ export async function usernameExists(username) {
     try {
 
         const found = await db.get(`SELECT id FROM users WHERE username = ?`, username)
-        
         if (found) {
+            console.log('An existing username was found')
             return true
         }
+
+        console.log('No existing username was found')
 
     } catch(err) {
 
@@ -75,5 +77,26 @@ export async function addUser(name, username, password) {
         await db.close()
         console.log('Database connection closed')
 
+    }
+}
+
+export async function getUsername(id) {
+    await createUsersTable()
+    const db = await getDBConnection()
+
+    try {
+
+        const username = await db.get(`SELECT username FROM users WHERE id = ?`, [id])
+        console.log(username)
+        console.log('Successfully fetched username')
+        return username
+
+    } catch(err) {
+
+        console.error('Failed to fetch username', err)
+
+    } finally {
+        await db.close()
+        console.log('Database connection closed')
     }
 }

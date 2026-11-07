@@ -2,6 +2,7 @@ import express from 'express'
 import session from 'express-session'
 import { diceGameRoutes } from './routes/diceGameRoutes.js'
 import { authRouter } from './routes/auth.js'
+import { meRouter } from './routes/me.js'
 
 const app = express()
 const PORT = process.env.PORT || 9000
@@ -22,6 +23,7 @@ app.use(session({
 
 app.use(express.static('public'))
 
+app.use('/api/auth/me', meRouter)
 app.use('/api/auth', authRouter)
 app.use('/api', diceGameRoutes)
 
