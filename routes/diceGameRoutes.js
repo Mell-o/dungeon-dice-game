@@ -9,7 +9,7 @@ export const diceGameRoutes = express.Router()
 
 diceGameRoutes.get('/heroes', (req, res) => { 
     res.status(200).json({heroes: engine.getHeroes()})
-}) 
+})
 
 diceGameRoutes.post('/battle/start', battleController.startBattle)
 
