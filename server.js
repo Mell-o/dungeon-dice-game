@@ -5,7 +5,8 @@ import { diceGameRoutes } from './routes/diceGameRoutes.js'
 import { authRouter } from './routes/auth.js'
 import { meRouter } from './routes/me.js'
 
-dotenv.config()
+dotenv.config({ path: '.env.example' });
+dotenv.config({ path: '.env', override: true });
 
 const app = express()
 const PORT = process.env.PORT
