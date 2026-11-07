@@ -86,10 +86,9 @@ export async function getUsername(id) {
 
     try {
 
-        const username = await db.get(`SELECT username FROM users WHERE id = ?`, [id])
-        console.log(username)
+        const result = await db.get(`SELECT username FROM users WHERE id = ?`, [id])
         console.log('Successfully fetched username')
-        return username
+        return result.username
 
     } catch(err) {
 
@@ -98,5 +97,29 @@ export async function getUsername(id) {
     } finally {
         await db.close()
         console.log('Database connection closed')
+    }
+}
+
+export async function getUser(username) {
+    await createUsersTable()
+    const db = await getDBConnection()
+    try {
+
+        const user = await db.get(`
+            SELECT id, username, password FROM users 
+            WHERE username = ?`,
+        [username])
+
+        return user
+
+    } catch(err) {
+
+        console.error('Failed to fetch user credentials', err)
+
+    } finally {
+
+        await db.close()
+        console.log('Database connection closed')
+
     }
 }
